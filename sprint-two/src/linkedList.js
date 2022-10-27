@@ -3,32 +3,46 @@ var LinkedList = function() {
   list.head = null;
   list.tail = null;
 
+
   list.addToTail = function(value) {
-    //add a node of a specific value to the tail position
     let newNode = Node(value);
-    //add a pointer from the previous tail pointing @ the new tail (in the Next property)
 
-//***********************
-
-    //initialize run head must change from null to new node
     if (list.head === null) {
       list.head = newNode;
       list.tail = newNode;
+    } else {
+      list.tail.next = newNode;
+      list.tail = newNode;
     }
-    //change list.tail to point to the new tail
-
   };
+
 
   list.removeHead = function() {
-
+    let result = list.head.value;
+    list.head = list.head.next;
+    return result;
   };
+
 
   list.contains = function(target) {
+    let currentNode = list.head;
 
+    let doesMatchTarget = function (target, currentNode) {
+      if ( target === currentNode.value) {
+        return true;
+      } else if (currentNode.next) {
+        return doesMatchTarget(target, currentNode.next);
+      } else {
+        return false;
+      }
+    };
+
+    return doesMatchTarget(target, currentNode);
   };
-
   return list;
 };
+
+
 
 var Node = function(value) {
   var node = {};
